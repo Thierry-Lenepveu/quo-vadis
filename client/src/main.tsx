@@ -8,7 +8,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AgendaPage from "./pages/AgendaPage";
-import SchedulePage from "./pages/SchedulePage";
 import UserPage from "./pages/UserPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
@@ -29,19 +28,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <CalendarPage />,
+        element: <UserPageContainer>{<CalendarPage />}</UserPageContainer>,
       },
       {
         path: "/agenda",
-        element: <AgendaPage />,
-      },
-      {
-        path: "/schedule",
-        element: <SchedulePage />,
+        element: <UserPageContainer>{<AgendaPage />}</UserPageContainer>,
       },
       {
         path: "/user",
-        element: <UserPage />,
+        element: <UserPageContainer>{<UserPage />}</UserPageContainer>,
       },
       {
         path: "/login",
@@ -62,6 +57,8 @@ import frtimeZoneData from "@syncfusion/ej2-cldr-data/main/fr/timeZoneNames.json
 import frGregorian from "@syncfusion/ej2-cldr-data/main/fr/ca-gregorian.json";
 import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json";
 import CalendarPage from "./pages/CalendarPage";
+import UserPageContainer from "./components/UserPageContainer";
+import AuthProvider from "./contexts/AuthProvider";
 
 loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 
@@ -80,7 +77,9 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
 

@@ -1,0 +1,99 @@
+div.page-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background-color: var(--ghost-white-color);
+  height: 100%;
+  width: 100%;
+}
+
+div.page-container article.image-container {
+  width: 0;
+  display: none;
+  flex: 1;
+}
+
+div.page-container article.image-container > img {
+  width: 0;
+  display: none;
+}
+
+@media screen and (orientation: landscape) {
+  div.page-container article.image-container {
+    width: auto;
+    height: 100%;
+    display: flex;
+  }
+  div.page-container article.image-container > img {
+    width: auto;
+    height: 100%;
+    display: block;
+  }
+
+  div.page-container > article.register-container > h2 {
+    font-size: 4rem !important;
+    padding: 2rem 2rem 2rem 0 !important;
+  }
+}
+
+div.page-container > article.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 1.25rem;
+  flex: 3;
+  height: 100%;
+  overflow: auto;
+}
+
+div.page-container > article.register-container > h2 {
+  font-size: 2rem;
+  line-height: 1.1;
+  color: black;
+  padding: 1rem;
+}
+
+div.page-container > article.register-container > form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  gap: 0.625rem;
+}
+
+div.page-container > article.register-container > form input.error {
+  border-bottom: 2px solid var(--red-color);
+}
+
+div.page-container > article.register-container > form input {
+  padding: 0.625rem;
+  border: none;
+  border-bottom: var(--header-color) 2px solid;
+  outline: none;
+  background-color: var(--ghost-white-color);
+  color: black;
+}
+
+div.page-container > article.register-container .button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+}
+
+div.page-container > article.register-container > form button {
+  background-color: var(--header-color);
+  color: white;
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+div.page-container > article.register-container > form p {
+  color: var(--red-color);
+}

@@ -1,21 +1,28 @@
 create table user (
   id int unsigned primary key auto_increment not null,
   email varchar(255) not null unique,
-  password varchar(255) not null
+  first_name varchar(255) not null,
+  last_name varchar(255) not null,
+  occupation varchar(255) not null,
+  hashed_password varchar(255) not null
 );
 
-create table item (
+create table schedule (
   id int unsigned primary key auto_increment not null,
-  title varchar(255) not null,
   user_id int unsigned not null,
-  foreign key(user_id) references user(id)
+  start_time datetime not null,
+  end_time datetime not null,
+  subject varchar(255) not null,
+  description text not null,
+  location varchar(255) not null,
+  foreign key (user_id) references user(id)
 );
 
-insert into user(id, email, password)
-values
-  (1, "jdoe@mail.com", "123456");
-
-insert into item(id, title, user_id)
-values
-  (1, "Stuff", 1),
-  (2, "Doodads", 1);
+create table invitation (
+  id int unsigned primary key auto_increment not null,
+  schedule_id int unsigned not null,
+  user_id int unsigned not null,
+  status enum('pending', 'accepted', 'declined') not null,
+  foreign key (schedule_id) references schedule(id),
+  foreign key (user_id) references user(id)
+);

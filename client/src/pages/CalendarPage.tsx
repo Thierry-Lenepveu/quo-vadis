@@ -13,21 +13,7 @@ import { L10n } from "@syncfusion/ej2-base";
 import local from "../locale.json";
 import "../styles/Calendar.css";
 import { useEffect, useState } from "react";
-
-type EventSetting = {
-  Id: number;
-  Subject: string;
-  StartTime: Date;
-  EndTime: Date;
-  Description: string;
-  CategoryColor: string;
-};
-type EventSettings = {
-  dataSource: EventSetting[];
-  allowAdding: false;
-  allowDeleting: false;
-  allowEditing: false;
-};
+import type { EventSetting, EventSettings } from "../types/event";
 
 function CalendarPage() {
   L10n.load(local);
@@ -54,7 +40,7 @@ function CalendarPage() {
   }, []);
 
   return (
-    <div className="calendar-container">
+    <div className="page-container">
       <h2>Calendrier</h2>
       <ScheduleComponent
         selectedDate={new Date(Date.now())}

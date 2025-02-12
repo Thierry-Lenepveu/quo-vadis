@@ -20,11 +20,6 @@ function App() {
                 <img src="/images/agenda.svg" alt="Agenda" />
               </Link>
             </li>
-            <li className="schedule">
-              <Link to="/schedule">
-                <img src="/images/schedule.svg" alt="Programmer" />
-              </Link>
-            </li>
             <li className="user">
               <Link to="/user">
                 <img src="/images/user.svg" alt="Utilisateur" />

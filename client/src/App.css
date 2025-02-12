@@ -17,6 +17,7 @@
   --light-blue-color: #d9e9ff;
   --ghost-white-color: #f9f9f9;
   --egg-color: #e5e9e7;
+  --red-color: #ff0000;
 }
 
 * {
@@ -91,10 +92,6 @@ nav ol li.calendar {
 }
 
 nav ol li.agenda {
-  flex: 1;
-}
-
-nav ol li.schedule {
   flex: 10;
 }
 
@@ -141,4 +138,14 @@ h1 {
   font-family: var(--text-fontfamily);
   flex-grow: 100;
   overflow: auto;
+}
+
+div.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.page-container > h2 {
+  padding: 0.3175rem;
 }
