@@ -1,0 +1,12 @@
+div.calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.calendar-container > h2 {
+  padding: 0.3175rem;
+}
+main div.e-control {
+  overflow: auto;
+}

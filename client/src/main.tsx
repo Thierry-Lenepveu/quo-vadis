@@ -7,6 +7,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 // Import the main app component
 import App from "./App";
+import AgendaPage from "./pages/AgendaPage";
+import SchedulePage from "./pages/SchedulePage";
+import UserPage from "./pages/UserPage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
@@ -20,11 +25,49 @@ import App from "./App";
 // You can add more routes as you build out your app!
 const router = createBrowserRouter([
   {
-    path: "/", // The root path
-    element: <App />, // Renders the App component for the home page
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <CalendarPage />,
+      },
+      {
+        path: "/agenda",
+        element: <AgendaPage />,
+      },
+      {
+        path: "/schedule",
+        element: <SchedulePage />,
+      },
+      {
+        path: "/user",
+        element: <UserPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
+    ],
   },
-  // Try adding a new route! For example, "/about" with an About component
 ]);
+
+import { registerLicense } from "@syncfusion/ej2-base";
+import { loadCldr } from "@syncfusion/ej2-base";
+import frNumberData from "@syncfusion/ej2-cldr-data/main/fr/numbers.json";
+import frtimeZoneData from "@syncfusion/ej2-cldr-data/main/fr/timeZoneNames.json";
+import frGregorian from "@syncfusion/ej2-cldr-data/main/fr/ca-gregorian.json";
+import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json";
+import CalendarPage from "./pages/CalendarPage";
+
+loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
+
+registerLicense(
+  "Ngo9BigBOggjHTQxAR8/V1NMaF1cXmhKYVJyWmFZfVtgcV9FZlZRQ2YuP1ZhSXxWdkdiW39bc3xRTmVeVkY=",
+);
 
 /* ************************************************************************* */
 
@@ -38,31 +81,30 @@ if (rootElement == null) {
 createRoot(rootElement).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );
 
 /**
  * Helpful Notes:
- * 
+ *
  * 1. Adding More Routes:
  *    To add more pages to your app, first create a new component (e.g., About.tsx).
  *    Then, import that component above like this:
- * 
+ *
  *    import About from "./pages/About";
- * 
+ *
  *    Add a new route to the router:
- * 
+ *
  *      {
  *        path: "/about",
  *        element: <About />,  // Renders the About component
  *      }
- * 
+ *
  * 2. Try Nested Routes:
  *    For more complex applications, you can nest routes. This lets you have sub-pages within a main page.
  *    Documentation: https://reactrouter.com/en/main/start/tutorial#nested-routes
- * 
+ *
  * 3. Experiment with Dynamic Routes:
  *    You can create routes that take parameters (e.g., /users/:id).
  *    Documentation: https://reactrouter.com/en/main/start/tutorial#url-params-in-loaders
  */
-
