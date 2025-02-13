@@ -24,7 +24,7 @@ div.user-container > section > h2 {
 div.user-container p.editable {
   border-bottom: var(--header-color) 2px solid;
   outline: none;
-  padding: 0.625rem;
+  padding: 0.625rem 0.625rem 0.2rem 0.625rem;
   background-color: var(--ghost-white-color);
 }
 

@@ -15,6 +15,7 @@ create table schedule (
   subject varchar(255) not null,
   description text not null,
   location varchar(255) not null,
+  color varchar(7) not null,
   foreign key (user_id) references user(id)
 );
 

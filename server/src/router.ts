@@ -10,6 +10,7 @@ const router = express.Router();
 import itemActions from "./modules/item/itemActions";
 import authActions from "./modules/auth/authActions";
 import userActions from "./modules/user/userActions";
+import eventActions from "./modules/event/eventActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
@@ -29,6 +30,12 @@ router.get("/api/users", userActions.browse);
 router.get("/api/users/:id", userActions.read);
 router.put("/api/users/:id", userActions.update);
 router.delete("/api/users/:id", userActions.destroy);
+
+router.get("/api/events", eventActions.browse);
+router.get("/api/events/:id", eventActions.read);
+router.put("/api/events/:id", eventActions.edit);
+router.post("/api/events", eventActions.add);
+router.delete("/api/events/:id", eventActions.destroy);
 
 /* ************************************************************************* */
 

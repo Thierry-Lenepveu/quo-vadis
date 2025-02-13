@@ -11,25 +11,46 @@ import { L10n } from "@syncfusion/ej2-base";
 import local from "../locale.json";
 import "../styles/Calendar.css";
 import { useEffect, useState } from "react";
-import type { EventSetting, EventSettings } from "../types/event";
+import {
+  EventSetting,
+  type EventFromDB,
+  type EventSettings,
+} from "../types/events";
 
 function CalendarPage() {
   L10n.load(local);
 
-  const [eventSettings, setEventSettings] = useState<EventSettings | null>(
-    null,
-  );
+  const [eventSettings, setEventSettings] = useState<EventSettings | null>({
+    dataSource: [] as EventSetting[],
+    allowAdding: false,
+    allowDeleting: false,
+    allowEditing: false,
+  });
 
   const onEventRendered = (args: EventRenderedArgs) => {
     args.element.style.backgroundColor = args.data.CategoryColor;
   };
 
   useEffect(() => {
-    fetch("/api/events")
+    fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         setEventSettings({
-          dataSource: data as EventSetting[],
+          dataSource: data.map(
+            (item: EventFromDB) =>
+              new EventSetting(
+                item.id,
+                item.subject,
+                new Date(item.start_time),
+                new Date(item.end_time),
+                item.description,
+                item.location,
+                item.color,
+              ),
+          ) as EventSetting[],
           allowAdding: false,
           allowDeleting: false,
           allowEditing: false,

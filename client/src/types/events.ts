@@ -28,9 +28,9 @@ export class EventSetting {
 
 export class EventSettings {
   dataSource: Omit<EventSetting, "id" | "location">[];
-  allowAdding: false;
-  allowDeleting: false;
-  allowEditing: false;
+  allowAdding: boolean;
+  allowDeleting: boolean;
+  allowEditing: boolean;
 
   constructor(
     dataSource: Omit<EventSetting, "id" | "location">[] = [],
@@ -43,4 +43,14 @@ export class EventSettings {
     this.allowDeleting = allowDeleting;
     this.allowEditing = allowEditing;
   }
+}
+
+export interface EventFromDB {
+  id: number;
+  subject: string;
+  start_time: string | Date;
+  end_time: string | Date;
+  description: string;
+  location: string;
+  color: string;
 }

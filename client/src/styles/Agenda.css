@@ -2,8 +2,73 @@ div.agenda-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  gap: 0.625rem;
+  overflow: auto;
 }
 
 div.agenda-container > h2 {
   padding: 0.3175rem;
+}
+
+div.agenda-container > div.agenda-events-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+div.agenda-container
+  > div.agenda-events-container
+  > article:not(.agenda-event-add) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding: 0 0 0.625rem 0;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0.625rem;
+}
+
+div.agenda-events-container > article > section.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding: 0.625rem;
+  gap: 0.625rem;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
+  width: 100%;
+}
+
+div.agenda-events-container > article > section.header > h3 {
+  font-size: 1.5rem !important;
+  flex: 4;
+}
+
+div.agenda-events-container > article > section.header > img {
+  flex: 1;
+  max-width: 1.875rem;
+  height: auto;
+}
+
+div.agenda-events-container > article > section:not(.header) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 0.625rem;
+  padding: 0.625rem;
+}
+
+div.agenda-container p.editable {
+  border-bottom: var(--header-color) 2px solid;
+  outline: none;
+  padding: 0.625rem 0.625rem 0.2rem 0.625rem;
+  background-color: var(--ghost-white-color);
 }
