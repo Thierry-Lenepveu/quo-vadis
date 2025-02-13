@@ -1,4 +1,4 @@
-div.page-container {
+div.register-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -8,36 +8,36 @@ div.page-container {
   width: 100%;
 }
 
-div.page-container article.image-container {
+div.register-container article.image-container {
   width: 0;
   display: none;
   flex: 1;
 }
 
-div.page-container article.image-container > img {
+div.register-container article.image-container > img {
   width: 0;
   display: none;
 }
 
 @media screen and (orientation: landscape) {
-  div.page-container article.image-container {
+  div.register-container article.image-container {
     width: auto;
     height: 100%;
     display: flex;
   }
-  div.page-container article.image-container > img {
+  div.register-container article.image-container > img {
     width: auto;
     height: 100%;
     display: block;
   }
 
-  div.page-container > article.register-container > h2 {
+  div.register-container > article.register-container > h2 {
     font-size: 4rem !important;
     padding: 2rem 2rem 2rem 0 !important;
   }
 }
 
-div.page-container > article.register-container {
+div.register-container > article.register-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -48,14 +48,14 @@ div.page-container > article.register-container {
   overflow: auto;
 }
 
-div.page-container > article.register-container > h2 {
+div.register-container > article.register-container > h2 {
   font-size: 2rem;
   line-height: 1.1;
   color: black;
   padding: 1rem;
 }
 
-div.page-container > article.register-container > form {
+div.register-container > article.register-container > form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -64,11 +64,11 @@ div.page-container > article.register-container > form {
   gap: 0.625rem;
 }
 
-div.page-container > article.register-container > form input.error {
+div.register-container > article.register-container > form input.error {
   border-bottom: 2px solid var(--red-color);
 }
 
-div.page-container > article.register-container > form input {
+div.register-container > article.register-container > form input {
   padding: 0.625rem;
   border: none;
   border-bottom: var(--header-color) 2px solid;
@@ -77,14 +77,14 @@ div.page-container > article.register-container > form input {
   color: black;
 }
 
-div.page-container > article.register-container .button-container {
+div.register-container > article.register-container .button-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: end;
 }
 
-div.page-container > article.register-container > form button {
+div.register-container > article.register-container > form button {
   background-color: var(--header-color);
   color: white;
   border: none;
@@ -94,6 +94,6 @@ div.page-container > article.register-container > form button {
   cursor: pointer;
 }
 
-div.page-container > article.register-container > form p {
+div.register-container > article.register-container > form p {
   color: var(--red-color);
 }

@@ -4,8 +4,6 @@ import {
   Inject,
   Month,
   ScheduleComponent,
-  ViewDirective,
-  ViewsDirective,
   Week,
   WorkWeek,
 } from "@syncfusion/ej2-react-schedule";
@@ -40,7 +38,7 @@ function CalendarPage() {
   }, []);
 
   return (
-    <div className="page-container">
+    <div className="calendar-container">
       <h2>Calendrier</h2>
       <ScheduleComponent
         selectedDate={new Date(Date.now())}
@@ -48,12 +46,6 @@ function CalendarPage() {
         eventRendered={onEventRendered}
         locale="fr"
       >
-        <ViewsDirective>
-          <ViewDirective option="Day" />
-          <ViewDirective option="Week" />
-          <ViewDirective option="WorkWeek" />
-          <ViewDirective option="Month" />
-        </ViewsDirective>
         <Inject services={[Day, Week, WorkWeek, Month]} />
       </ScheduleComponent>
     </div>

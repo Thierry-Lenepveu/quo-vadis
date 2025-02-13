@@ -50,11 +50,11 @@ function LoginPage() {
     }
   };
   return (
-    <div className="page-container">
+    <div className="login-container">
       <article className="image-container">
         <img src="/images/login-quovadis.webp" alt="quovadis" />
       </article>
-      <article className="login-container">
+      <article className="form-container">
         <section>
           <h2>Bienvenue sur Quo Vadis</h2>
           <p>votre agenda personnel</p>

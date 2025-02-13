@@ -1,3 +1,9 @@
-main div.e-control {
-  overflow: auto;
+div.agenda-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.agenda-container > h2 {
+  padding: 0.3175rem;
 }

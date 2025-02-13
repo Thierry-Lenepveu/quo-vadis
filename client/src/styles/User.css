@@ -1,0 +1,72 @@
+div.user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+div.user-container > section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding: 0.625rem;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+div.user-container > section > h2 {
+  font-size: 2rem !important;
+}
+
+div.user-container p.editable {
+  border-bottom: var(--header-color) 2px solid;
+  outline: none;
+  padding: 0.625rem;
+  background-color: var(--ghost-white-color);
+}
+
+div.user-container > article {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  padding: 1.25rem;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+}
+
+div.user-container > article > section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding: 0;
+  gap: 0.625rem;
+}
+
+div.user-container > section.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  gap: 0.625rem;
+  width: fit-content;
+}
+
+div.user-container > section.button-container button {
+  display: block;
+  flex-grow: 1;
+  background-color: var(--header-color);
+  color: white;
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: fit-content;
+}

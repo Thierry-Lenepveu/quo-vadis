@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/Register.css";
 import { useNavigate } from "react-router-dom";
+import type { UserRegister } from "../types/user";
 
 function RegisterPage() {
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -9,6 +10,17 @@ function RegisterPage() {
   const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
+
+  const transform = (formData: FormData) => {
+    const data: UserRegister = {} as UserRegister;
+    data.first_name = formData.get("first_name") as string;
+    data.last_name = formData.get("last_name") as string;
+    data.email = formData.get("email") as string;
+    data.occupation = formData.get("occupation") as string;
+    data.password = formData.get("password") as string;
+
+    return data;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event?.currentTarget;
@@ -22,38 +34,15 @@ function RegisterPage() {
       return;
     }
 
-    const cityElement = document.getElementById("city") as HTMLInputElement;
-    if (!cityElement) {
-      return;
-    }
-
-    const postalcodeElement = document.getElementById(
-      "postalcode",
-    ) as HTMLInputElement;
-    if (!postalcodeElement) {
-      return;
-    }
-
-    response = await fetch(
-      `https://geo.api.gouv.fr/communes?codePostal=${postalcodeElement.value}&nom=${cityElement.value}&fields=nom,code,codeDepartement,codeRegion`,
-    );
-    if (!response.ok) {
-      setErrorMessage("Veuillez entrer une ville valide.");
-      return;
-    }
-
-    const dataReceived = await response.json();
-    if (dataReceived.length === 0) {
-      setErrorMessage("Veuillez entrer une ville valide.");
-      return;
-    }
-
     setEmailExists(false);
     const formData = new FormData(form);
-    response = await fetch(form.action, {
+    response = await fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(transform(formData)),
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     if (response.ok) {
       navigate("/login");
@@ -118,14 +107,13 @@ function RegisterPage() {
   };
 
   return (
-    <div className="page-container">
+    <div className="register-container">
       <article className="image-container">
         <img src="/images/login-quovadis.webp" alt="quovadis" />
       </article>
       <article className="register-container">
         <h2>Créer mon compte</h2>
         <form
-          action={`${import.meta.env.VITE_API_URL}/api/users`}
           onSubmit={handleSubmit}
           className="login-user-form"
           id="login-user-form"

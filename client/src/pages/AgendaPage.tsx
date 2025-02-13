@@ -2,9 +2,8 @@ import "../styles/Agenda.css";
 
 function AgendaPage() {
   return (
-    <div className="agenda">
+    <div className="agenda-container">
       <h2>Agenda</h2>
-      <p>Coming soon...</p>
     </div>
   );
 }

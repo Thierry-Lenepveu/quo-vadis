@@ -139,13 +139,3 @@ h1 {
   flex-grow: 100;
   overflow: auto;
 }
-
-div.page-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-div.page-container > h2 {
-  padding: 0.3175rem;
-}

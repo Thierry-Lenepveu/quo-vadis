@@ -1,4 +1,4 @@
-div.page-container {
+div.login-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -8,41 +8,41 @@ div.page-container {
   width: 100%;
 }
 
-div.page-container article.image-container {
+div.login-container article.image-container {
   width: 0;
   display: none;
   flex: 1;
 }
 
-div.page-container article.image-container > img {
+div.login-container article.image-container > img {
   width: 0;
   display: none;
 }
 
 @media screen and (orientation: landscape) {
-  div.page-container article.image-container {
+  div.login-container article.image-container {
     width: auto;
     height: 100%;
     display: flex;
   }
-  div.page-container article.image-container > img {
+  div.login-container article.image-container > img {
     width: auto;
     height: 100%;
     display: block;
   }
 
-  div.page-container > article.login-container > section > h2 {
+  div.login-container > article.form-container > section > h2 {
     font-size: 4rem !important;
     padding: 2rem !important;
   }
 
-  div.page-container > article.login-container > section > p {
+  div.login-container > article.form-container > section > p {
     font-size: 2rem !important;
     padding: 0 2rem 2rem 2rem !important;
   }
 }
 
-div.page-container > article.login-container {
+div.login-container > article.form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +51,7 @@ div.page-container > article.login-container {
   flex: 3;
 }
 
-div.page-container > article.login-container > section {
+div.login-container > article.form-container > section {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -59,21 +59,21 @@ div.page-container > article.login-container > section {
   padding: 0;
 }
 
-div.page-container > article.login-container > section > h2 {
+div.login-container > article.form-container > section > h2 {
   font-size: 2rem;
   line-height: 1.1;
   color: black;
   padding: 1rem;
 }
 
-div.page-container > article.login-container section > p {
+div.login-container > article.form-container section > p {
   font-size: 1rem;
   line-height: 1.1;
   color: black;
   padding: 0 1rem 1rem 1rem;
 }
 
-div.page-container > article.login-container > form {
+div.login-container > article.form-container > form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -82,21 +82,21 @@ div.page-container > article.login-container > form {
   gap: 0.625rem;
 }
 
-div.page-container > article.login-container > form input {
+div.login-container > article.form-container > form input {
   padding: 0.625rem;
   border: none;
   border-bottom: var(--header-color) 2px solid;
   outline: none;
-  color: var(--ghost-white-color);
+  background-color: var(--ghost-white-color);
 }
-div.page-container > article.login-container .button-container {
+div.login-container > article.form-container .button-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: end;
 }
 
-div.page-container > article.login-container > form button {
+div.login-container > article.form-container > form button {
   background-color: var(--header-color);
   color: white;
   border: none;
