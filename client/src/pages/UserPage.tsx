@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import "../styles/User.css";
 import type { User } from "../types/user";
+import { useNavigate } from "react-router-dom";
 
 function UserPage() {
   const { auth } = useAuth();
@@ -33,7 +33,13 @@ function UserPage() {
       method: "GET",
       credentials: "include",
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          navigate("/login");
+        }
+
+        return response.json();
+      })
       .then((data: User) => {
         if (firstNameHtmlElement.current) {
           firstNameHtmlElement.current.textContent = data.first_name;

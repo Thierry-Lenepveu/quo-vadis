@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { EventSetting } from "../types/events";
+import { type EventFromDB, EventSetting } from "../types/events";
 import { useRefreshContext } from "../contexts/RefreshContext";
 import { useAuth } from "../contexts/AuthProvider";
 
@@ -20,6 +20,9 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
   const colorHtmlInputElement = useRef<HTMLInputElement>(null);
 
   const { auth } = useAuth();
+
+  const [events, setEvents] = useState<EventSetting[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { newElement, setNewElement, setRefresh } = useRefreshContext();
 
   const [subject, setSubject] = useState<string>(event.Subject);
@@ -33,14 +36,37 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setEvents(
+          data
+            .map(
+              (item: EventFromDB) =>
+                new EventSetting(
+                  item.id,
+                  item.subject,
+                  new Date(item.start_time),
+                  new Date(item.end_time),
+                  item.description,
+                  item.location,
+                  item.color,
+                ),
+            )
+            .filter(
+              (item: EventSetting) => item.Id !== event.Id,
+            ) as EventSetting[],
+        );
+      });
+
     if (newElement && newEventToBeModified) {
       setModify(true);
       handleModify();
     }
-
-    if (newElement && newEventToBeModified) {
-    }
-  }, [newElement, newEventToBeModified]);
+  }, [newElement, newEventToBeModified, event]);
 
   const colorToRgb = (color: string) => {
     // Vérifie que la chaîne commence par '#' et a une longueur de 7 caractères
@@ -107,6 +133,33 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
 
   const actionSave = () => {
     if (modify) {
+      const currentStartDate = new Date(
+        startDateHtmlInputElement.current?.value as string,
+      ).getTime();
+      const currentEndDate = new Date(
+        endDateHtmlInputElement.current?.value as string,
+      ).getTime();
+      if (currentStartDate > currentEndDate) {
+        setErrorMessage(
+          "La date de début doit être antérieure à la date de fin",
+        );
+        return;
+      }
+
+      if (
+        events.some(
+          (item) =>
+            (currentStartDate > item.StartTime.getTime() &&
+              currentStartDate < item.EndTime.getTime()) ||
+            (currentEndDate > item.StartTime.getTime() &&
+              currentEndDate < item.EndTime.getTime()),
+        )
+      ) {
+        setErrorMessage("Les dates se chevauchent avec un autre événement");
+        setModify(true);
+        return;
+      }
+
       fetch(`${import.meta.env.VITE_API_URL}/api/events/${event.Id}`, {
         method: "PUT",
         credentials: "include",
@@ -147,8 +200,15 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
             setCategoryColor(colorHtmlInputElement.current.value);
           }
           setRefresh((prev) => !prev);
+          setErrorMessage("");
         })
-        .catch((error) => console.error("Error:", error));
+        .catch((_error) => {
+          setErrorMessage("Erreur lors de la modification de l'événement");
+        });
+      setModify(false);
+    } else {
+      setModify(true);
+      setErrorMessage("");
     }
   };
 
@@ -158,11 +218,10 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
 
   const handleClickModify = () => {
     actionSave();
-    handleModify();
   };
+
   const handleKeyDownModify = () => {
     actionSave();
-    handleModify();
   };
 
   const handleClickDelete = () => {
@@ -261,6 +320,7 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
       )}
       {!deleteConfirmation && (
         <>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <section className="event-description-group">
             <p className="key">Description: </p>
             <p className="event-description value" ref={descriptionHtmlElement}>

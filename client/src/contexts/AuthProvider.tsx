@@ -34,13 +34,21 @@ export default function AuthProvider({
     fetch(`${import.meta.env.VITE_API_URL}/api/auth`, {
       method: "GET",
       credentials: "include",
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setAuth({ token: "", user_id: data.user_id, isAdmin: data.is_admin });
-        });
-      }
-    });
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            setAuth({
+              token: "",
+              user_id: data.user_id,
+              isAdmin: data.is_admin,
+            });
+          });
+        }
+      })
+      .catch((_error) => {
+        setAuth(null);
+      });
   }, [auth]);
 
   return (

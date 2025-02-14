@@ -6,10 +6,13 @@ import AgendaEvent from "../components/AgendaEvent";
 import AgendaAdd from "../components/AgendaAdd";
 import { type EventFromDB, EventSetting } from "../types/events";
 import { useRefreshContext } from "../contexts/RefreshContext";
+import { useNavigate } from "react-router-dom";
 
 function AgendaPage() {
   const [events, setEvents] = useState<EventSetting[]>([]);
   const { refresh, newElement } = useRefreshContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     refresh;
@@ -17,7 +20,13 @@ function AgendaPage() {
       method: "GET",
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          navigate("/login");
+        }
+
+        return res.json();
+      })
       .then((data) => {
         setEvents(
           data.map(
@@ -34,7 +43,7 @@ function AgendaPage() {
           ) as EventSetting[],
         );
       });
-  }, [refresh]);
+  }, [refresh, navigate]);
 
   return (
     <div className="agenda-container">

@@ -24,10 +24,26 @@ function AgendaAdd({ events }: AgendaAddProps) {
   };
 
   const handleAdd = () => {
+    let currentStartDate = Math.ceil(Date.now() / 1800000) * 1800000;
+    let currentEndDate = currentStartDate + 1800000;
+
+    while (
+      events.some(
+        (item) =>
+          (currentStartDate > item.StartTime.getTime() &&
+            currentStartDate < item.EndTime.getTime()) ||
+          (currentEndDate > item.StartTime.getTime() &&
+            currentEndDate < item.EndTime.getTime()),
+      )
+    ) {
+      currentStartDate += 1800000;
+      currentEndDate += 1800000;
+    }
+
     const newEvent: EventSetting = {
       Id: events.length + 1,
-      StartTime: new Date(Date.now()),
-      EndTime: new Date(Date.now() + 3600000),
+      StartTime: new Date(currentStartDate),
+      EndTime: new Date(currentEndDate),
       Subject: "Nouvel événement",
       Description: "Description",
       Location: "Lieu",

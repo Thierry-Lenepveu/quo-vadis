@@ -17,6 +17,7 @@ import {
   type EventSettings,
 } from "../types/events";
 import { useRefreshContext } from "../contexts/RefreshContext";
+import { useNavigate } from "react-router-dom";
 
 function CalendarPage() {
   L10n.load(local);
@@ -34,13 +35,22 @@ function CalendarPage() {
     args.element.style.backgroundColor = args.data.CategoryColor;
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     refresh;
+
     fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
       method: "GET",
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          navigate("/login");
+        }
+
+        return res.json();
+      })
       .then((data) => {
         setEventSettings({
           dataSource: data.map(
@@ -60,7 +70,7 @@ function CalendarPage() {
           allowEditing: false,
         });
       });
-  }, [refresh]);
+  }, [refresh, navigate]);
 
   return (
     <div className="calendar-container">

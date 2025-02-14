@@ -65,7 +65,7 @@ div.agenda-events-container > article > section:not(.header) {
   align-items: center;
   justify-content: start;
   gap: 0.625rem;
-  padding: 0 0 0 0.625rem;
+  padding: 0 0.625rem 0 0.625rem;
 }
 
 div.agenda-container p.editable,
@@ -104,4 +104,8 @@ div.delete-confirmation button {
   font-size: 1rem;
   cursor: pointer;
   width: fit-content;
+}
+
+.error-message {
+  color: var(--red-color);
 }
