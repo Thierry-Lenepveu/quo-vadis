@@ -45,6 +45,18 @@ class EventRepository {
     return rows as EventSetting[];
   }
 
+  async readAllByUser(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `select sc.id, sc.user_id,
+       sc.start_time, sc.end_time, sc.subject, sc.description, sc.location, sc.color
+       from schedule sc
+       inner join user us on sc.user_id = us.id where us.id = ?`,
+      [id],
+    );
+
+    return rows as EventSetting[];
+  }
+
   async read(id: number) {
     const [rows] = await databaseClient.query<Rows>(
       "select user_id, start_time, end_time, subject, description, location, color from schedule where id = ?",

@@ -5,8 +5,8 @@ div.agenda-container {
   width: 100%;
   gap: 0.625rem;
   overflow: auto;
-  margin-left: 0.3175rem;
-  margin-right: 0.3175rem;
+  margin-left: 0.625rem;
+  margin-right: 0.625rem;
 }
 
 div.agenda-container > h2 {

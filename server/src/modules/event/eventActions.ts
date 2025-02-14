@@ -11,6 +11,19 @@ const browse: RequestHandler = async (req, res, next) => {
   }
 };
 
+const readByUser: RequestHandler = async (req, res, next) => {
+  const { limit, offset, search } = req.query;
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    const events = await eventRepository.readAllByUser(id);
+
+    res.json(events);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const read: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
@@ -87,6 +100,7 @@ const destroy: RequestHandler = async (req, res, next) => {
 export default {
   browse,
   read,
+  readByUser,
   add,
   edit,
   destroy,

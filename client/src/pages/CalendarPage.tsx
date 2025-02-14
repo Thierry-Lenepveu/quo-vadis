@@ -18,6 +18,7 @@ import {
 } from "../types/events";
 import { useRefreshContext } from "../contexts/RefreshContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 function CalendarPage() {
   L10n.load(local);
@@ -36,11 +37,12 @@ function CalendarPage() {
   };
 
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   useEffect(() => {
     refresh;
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/events/user/${auth?.user_id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -70,7 +72,7 @@ function CalendarPage() {
           allowEditing: false,
         });
       });
-  }, [refresh, navigate]);
+  }, [refresh, navigate, auth]);
 
   return (
     <div className="calendar-container">

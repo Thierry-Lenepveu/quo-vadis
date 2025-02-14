@@ -36,7 +36,7 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/events/user/${auth?.user_id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -63,10 +63,9 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
       });
 
     if (newElement && newEventToBeModified) {
-      setModify(true);
-      handleModify();
+      activateModify();
     }
-  }, [newElement, newEventToBeModified, event]);
+  }, [newElement, newEventToBeModified, event, auth]);
 
   const colorToRgb = (color: string) => {
     // Vérifie que la chaîne commence par '#' et a une longueur de 7 caractères
@@ -99,117 +98,110 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
     setCategoryColor(colorHtmlInputElement.current?.value as string);
   };
 
-  const handleModify = () => {
-    if (modify) {
-      setModify(false);
-      if (subjectHtmlElement.current) {
-        subjectHtmlElement.current.contentEditable = "false";
-        subjectHtmlElement.current.classList.remove("editable");
-      }
-      if (descriptionHtmlElement.current) {
-        descriptionHtmlElement.current.contentEditable = "false";
-        descriptionHtmlElement.current.classList.remove("editable");
-      }
-      if (locationHtmlElement.current) {
-        locationHtmlElement.current.contentEditable = "false";
-        locationHtmlElement.current.classList.remove("editable");
-      }
-    } else {
-      setModify(true);
-      if (subjectHtmlElement.current) {
-        subjectHtmlElement.current.contentEditable = "true";
-        subjectHtmlElement.current.classList.add("editable");
-      }
-      if (descriptionHtmlElement.current) {
-        descriptionHtmlElement.current.contentEditable = "true";
-        descriptionHtmlElement.current.classList.add("editable");
-      }
-      if (locationHtmlElement.current) {
-        locationHtmlElement.current.contentEditable = "true";
-        locationHtmlElement.current.classList.add("editable");
-      }
+  const activateModify = () => {
+    setModify(true);
+    if (subjectHtmlElement.current) {
+      subjectHtmlElement.current.contentEditable = "true";
+      subjectHtmlElement.current.classList.add("editable");
+    }
+    if (descriptionHtmlElement.current) {
+      descriptionHtmlElement.current.contentEditable = "true";
+      descriptionHtmlElement.current.classList.add("editable");
+    }
+    if (locationHtmlElement.current) {
+      locationHtmlElement.current.contentEditable = "true";
+      locationHtmlElement.current.classList.add("editable");
+    }
+  };
+
+  const deactivateModify = () => {
+    setModify(false);
+    if (subjectHtmlElement.current) {
+      subjectHtmlElement.current.contentEditable = "false";
+      subjectHtmlElement.current.classList.remove("editable");
+    }
+    if (descriptionHtmlElement.current) {
+      descriptionHtmlElement.current.contentEditable = "false";
+      descriptionHtmlElement.current.classList.remove("editable");
+    }
+    if (locationHtmlElement.current) {
+      locationHtmlElement.current.contentEditable = "false";
+      locationHtmlElement.current.classList.remove("editable");
     }
   };
 
   const actionSave = () => {
-    if (modify) {
-      const currentStartDate = new Date(
-        startDateHtmlInputElement.current?.value as string,
-      ).getTime();
-      const currentEndDate = new Date(
-        endDateHtmlInputElement.current?.value as string,
-      ).getTime();
-      if (currentStartDate > currentEndDate) {
-        setErrorMessage(
-          "La date de début doit être antérieure à la date de fin",
-        );
-        return;
-      }
-
-      if (
-        events.some(
-          (item) =>
-            (currentStartDate > item.StartTime.getTime() &&
-              currentStartDate < item.EndTime.getTime()) ||
-            (currentEndDate > item.StartTime.getTime() &&
-              currentEndDate < item.EndTime.getTime()),
-        )
-      ) {
-        setErrorMessage("Les dates se chevauchent avec un autre événement");
-        setModify(true);
-        return;
-      }
-
-      fetch(`${import.meta.env.VITE_API_URL}/api/events/${event.Id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: auth?.user_id,
-          start_time: startDateHtmlInputElement.current?.value,
-          end_time: endDateHtmlInputElement.current?.value,
-          subject: subjectHtmlElement.current?.textContent,
-          description: descriptionHtmlElement.current?.textContent,
-          location: locationHtmlElement.current?.textContent,
-          color: colorHtmlInputElement.current?.value,
-        }),
-      })
-        .then((res) => res.json())
-        .then((_data) => {
-          setModify(false);
-          setNewElement(false);
-          if (subjectHtmlElement.current?.textContent) {
-            setSubject(subjectHtmlElement.current.textContent);
-          }
-
-          if (descriptionHtmlElement.current?.textContent) {
-            setDescription(descriptionHtmlElement.current.textContent);
-          }
-          if (locationHtmlElement.current?.textContent) {
-            setLocation(locationHtmlElement.current.textContent);
-          }
-          if (startDateHtmlInputElement.current) {
-            setStartDate(new Date(startDateHtmlInputElement.current.value));
-          }
-          if (endDateHtmlInputElement.current) {
-            setEndDate(new Date(endDateHtmlInputElement.current.value));
-          }
-          if (colorHtmlInputElement.current) {
-            setCategoryColor(colorHtmlInputElement.current.value);
-          }
-          setRefresh((prev) => !prev);
-          setErrorMessage("");
-        })
-        .catch((_error) => {
-          setErrorMessage("Erreur lors de la modification de l'événement");
-        });
-      setModify(false);
-    } else {
-      setModify(true);
-      setErrorMessage("");
+    const currentStartDate = new Date(
+      startDateHtmlInputElement.current?.value as string,
+    ).getTime();
+    const currentEndDate = new Date(
+      endDateHtmlInputElement.current?.value as string,
+    ).getTime();
+    if (currentStartDate > currentEndDate) {
+      setErrorMessage("La date de début doit être antérieure à la date de fin");
+      return;
     }
+
+    if (
+      events.some(
+        (item) =>
+          (currentStartDate >= item.StartTime.getTime() &&
+            currentStartDate <= item.EndTime.getTime()) ||
+          (currentEndDate >= item.StartTime.getTime() &&
+            currentEndDate <= item.EndTime.getTime()),
+      )
+    ) {
+      setErrorMessage("Les dates se chevauchent avec un autre événement");
+      setModify(true);
+      return;
+    }
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/events/${event.Id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: auth?.user_id,
+        start_time: startDateHtmlInputElement.current?.value,
+        end_time: endDateHtmlInputElement.current?.value,
+        subject: subjectHtmlElement.current?.textContent,
+        description: descriptionHtmlElement.current?.textContent,
+        location: locationHtmlElement.current?.textContent,
+        color: colorHtmlInputElement.current?.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((_data) => {
+        setModify(false);
+        setNewElement(false);
+        if (subjectHtmlElement.current?.textContent) {
+          setSubject(subjectHtmlElement.current.textContent);
+        }
+
+        if (descriptionHtmlElement.current?.textContent) {
+          setDescription(descriptionHtmlElement.current.textContent);
+        }
+        if (locationHtmlElement.current?.textContent) {
+          setLocation(locationHtmlElement.current.textContent);
+        }
+        if (startDateHtmlInputElement.current) {
+          setStartDate(new Date(startDateHtmlInputElement.current.value));
+        }
+        if (endDateHtmlInputElement.current) {
+          setEndDate(new Date(endDateHtmlInputElement.current.value));
+        }
+        if (colorHtmlInputElement.current) {
+          setCategoryColor(colorHtmlInputElement.current.value);
+        }
+        setRefresh((prev) => !prev);
+        setErrorMessage("");
+      })
+      .catch((_error) => {
+        setErrorMessage("Erreur lors de la modification de l'événement");
+      });
+    deactivateModify();
   };
 
   const transformDate = (date: Date) => {
@@ -217,11 +209,19 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
   };
 
   const handleClickModify = () => {
-    actionSave();
+    if (modify) {
+      actionSave();
+    } else {
+      activateModify();
+    }
   };
 
   const handleKeyDownModify = () => {
-    actionSave();
+    if (modify) {
+      actionSave();
+    } else {
+      activateModify();
+    }
   };
 
   const handleClickDelete = () => {
@@ -245,6 +245,9 @@ function AgendaEvent({ event, newEventToBeModified }: AgendaEventProps) {
       credentials: "include",
     }).then((res) => {
       if (res.status === 204) {
+        if (newEventToBeModified) {
+          setNewElement(false);
+        }
         setRefresh((prev) => !prev);
       }
     });

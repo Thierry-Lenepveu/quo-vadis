@@ -117,7 +117,7 @@ nav ol a img {
 footer {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: var(--footer-color); /* Bleu foncé */
   padding: 0.625rem 1.25rem;

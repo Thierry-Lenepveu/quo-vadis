@@ -7,16 +7,17 @@ import AgendaAdd from "../components/AgendaAdd";
 import { type EventFromDB, EventSetting } from "../types/events";
 import { useRefreshContext } from "../contexts/RefreshContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 function AgendaPage() {
   const [events, setEvents] = useState<EventSetting[]>([]);
   const { refresh, newElement } = useRefreshContext();
-
+  const { auth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     refresh;
-    fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/events/user/${auth?.user_id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -43,7 +44,7 @@ function AgendaPage() {
           ) as EventSetting[],
         );
       });
-  }, [refresh, navigate]);
+  }, [refresh, navigate, auth]);
 
   return (
     <div className="agenda-container">

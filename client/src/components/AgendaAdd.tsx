@@ -30,10 +30,10 @@ function AgendaAdd({ events }: AgendaAddProps) {
     while (
       events.some(
         (item) =>
-          (currentStartDate > item.StartTime.getTime() &&
-            currentStartDate < item.EndTime.getTime()) ||
-          (currentEndDate > item.StartTime.getTime() &&
-            currentEndDate < item.EndTime.getTime()),
+          (currentStartDate >= item.StartTime.getTime() &&
+            currentStartDate <= item.EndTime.getTime()) ||
+          (currentEndDate >= item.StartTime.getTime() &&
+            currentEndDate <= item.EndTime.getTime()),
       )
     ) {
       currentStartDate += 1800000;

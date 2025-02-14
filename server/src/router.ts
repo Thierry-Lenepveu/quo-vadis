@@ -32,6 +32,7 @@ router.put("/api/users/:id", userActions.update);
 router.delete("/api/users/:id", userActions.destroy);
 
 router.get("/api/events", eventActions.browse);
+router.get("/api/events/user/:id", eventActions.readByUser);
 router.get("/api/events/:id", eventActions.read);
 router.put("/api/events/:id", eventActions.edit);
 router.post("/api/events", eventActions.add);
