@@ -59,6 +59,7 @@ import frNumberingSystem from "@syncfusion/ej2-cldr-data/supplemental/numberingS
 import CalendarPage from "./pages/CalendarPage";
 import UserPageContainer from "./components/UserPageContainer";
 import AuthProvider from "./contexts/AuthProvider";
+import RefreshProvider from "./contexts/RefreshContext";
 
 loadCldr(frNumberData, frtimeZoneData, frGregorian, frNumberingSystem);
 
@@ -78,7 +79,9 @@ if (rootElement == null) {
 createRoot(rootElement).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <RefreshProvider>
+        <RouterProvider router={router} />
+      </RefreshProvider>
     </AuthProvider>
   </StrictMode>,
 );

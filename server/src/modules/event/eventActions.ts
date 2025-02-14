@@ -78,7 +78,7 @@ const destroy: RequestHandler = async (req, res, next) => {
 
     await eventRepository.delete(id);
 
-    res.send(204);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }

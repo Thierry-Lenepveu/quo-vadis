@@ -1,19 +1,33 @@
 import { useAuth } from "../contexts/AuthProvider";
-import type { EventSetting } from "../types/event";
+import { useRefreshContext } from "../contexts/RefreshContext";
+import type { EventSetting } from "../types/events";
 
 interface AgendaAddProps {
   events: EventSetting[];
-  setEvents: React.Dispatch<React.SetStateAction<EventSetting[]>>;
 }
 
-function AgendaAdd({ events, setEvents }: AgendaAddProps) {
+function AgendaAdd({ events }: AgendaAddProps) {
   const { auth } = useAuth();
+  const { setRefresh, setNewElement } = useRefreshContext();
+
+  const transformDateUTC = (date: Date): Date => {
+    return new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+      ),
+    );
+  };
 
   const handleAdd = () => {
     const newEvent: EventSetting = {
       Id: events.length + 1,
-      StartTime: new Date(),
-      EndTime: new Date(),
+      StartTime: new Date(Date.now()),
+      EndTime: new Date(Date.now() + 3600000),
       Subject: "Nouvel événement",
       Description: "Description",
       Location: "Lieu",
@@ -28,8 +42,8 @@ function AgendaAdd({ events, setEvents }: AgendaAddProps) {
       body: JSON.stringify({
         id: newEvent.Id,
         user_id: auth?.user_id,
-        start_time: newEvent.StartTime,
-        end_time: newEvent.EndTime,
+        start_time: transformDateUTC(newEvent.StartTime).toISOString(),
+        end_time: transformDateUTC(newEvent.EndTime).toISOString(),
         subject: newEvent.Subject,
         description: newEvent.Description,
         location: newEvent.Location,
@@ -38,8 +52,10 @@ function AgendaAdd({ events, setEvents }: AgendaAddProps) {
     })
       .then((res) => res.json())
       .then((_data) => {
-        setEvents([...events, newEvent]);
-      });
+        setRefresh((prev) => !prev);
+        setNewElement(true);
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   return (

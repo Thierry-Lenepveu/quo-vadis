@@ -16,9 +16,12 @@ import {
   type EventFromDB,
   type EventSettings,
 } from "../types/events";
+import { useRefreshContext } from "../contexts/RefreshContext";
 
 function CalendarPage() {
   L10n.load(local);
+
+  const { refresh } = useRefreshContext();
 
   const [eventSettings, setEventSettings] = useState<EventSettings | null>({
     dataSource: [] as EventSetting[],
@@ -32,6 +35,7 @@ function CalendarPage() {
   };
 
   useEffect(() => {
+    refresh;
     fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
       method: "GET",
       credentials: "include",
@@ -56,7 +60,7 @@ function CalendarPage() {
           allowEditing: false,
         });
       });
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="calendar-container">

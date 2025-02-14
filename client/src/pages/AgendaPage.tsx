@@ -5,11 +5,14 @@ import { nanoid } from "nanoid";
 import AgendaEvent from "../components/AgendaEvent";
 import AgendaAdd from "../components/AgendaAdd";
 import { type EventFromDB, EventSetting } from "../types/events";
+import { useRefreshContext } from "../contexts/RefreshContext";
 
 function AgendaPage() {
   const [events, setEvents] = useState<EventSetting[]>([]);
+  const { refresh, newElement } = useRefreshContext();
 
   useEffect(() => {
+    refresh;
     fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
       method: "GET",
       credentials: "include",
@@ -31,7 +34,7 @@ function AgendaPage() {
           ) as EventSetting[],
         );
       });
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="agenda-container">
@@ -39,10 +42,22 @@ function AgendaPage() {
         <h2>Agenda</h2>
       </section>
       <div className="agenda-events-container">
-        {events.map((event) => (
-          <AgendaEvent key={nanoid()} event={event} />
-        ))}
-        <AgendaAdd events={events} setEvents={setEvents} />
+        {events.map((event, index) =>
+          index === events.length - 1 && newElement ? (
+            <AgendaEvent
+              key={nanoid()}
+              event={event}
+              newEventToBeModified={true}
+            />
+          ) : (
+            <AgendaEvent
+              key={nanoid()}
+              event={event}
+              newEventToBeModified={false}
+            />
+          ),
+        )}
+        <AgendaAdd events={events} />
       </div>
     </div>
   );

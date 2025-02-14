@@ -42,7 +42,6 @@ class EventRepository {
     const [rows] = await databaseClient.query<Rows>(
       "select id, user_id, start_time, end_time, subject, description, location, color from schedule",
     );
-    console.info(rows as EventSetting[]);
     return rows as EventSetting[];
   }
 
